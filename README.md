@@ -1,1 +1,1 @@
-# Wintercompetitie-2025-2026
+# Competitie Overzicht
