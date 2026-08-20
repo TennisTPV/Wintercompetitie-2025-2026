@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raamsdonksveer 2 – Herencompetitie vrijdagavond 2026</title>
+<style>
+  :root {
+    --club-light: #01b6ed;
+    --club-dark: #24256e;
+    --knltb: #ec5e2a;
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #667085;
+    --line: #d9e2ec;
+    --past-bg: #eef1f5;
+    --past-text: #7b8794;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    color: var(--text);
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 16px 14px 28px; }
+  .hero {
+    background: linear-gradient(135deg, var(--club-dark), #2d37a3 68%, var(--club-light));
+    color: white;
+    border-radius: 22px;
+    padding: 16px 16px 15px;
+    box-shadow: 0 10px 28px rgba(36,37,110,.22);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .hero-text h1 { font-size: 24px; line-height: 1.1; margin: 0 0 5px; }
+  .hero-text p { margin: 0; font-size: 14px; opacity: .95; }
+  .knltb-mark {
+    width: 58px; height: 58px; border-radius: 16px;
+    background: radial-gradient(circle at 30% 30%, #ffb08f 0, #ff8d5d 20%, var(--knltb) 58%, #cc4c1f 100%);
+    display: grid; place-items: center;
+    font-weight: 700; letter-spacing: .03em; font-size: 14px;
+    box-shadow: inset 0 2px 10px rgba(255,255,255,.18), 0 8px 16px rgba(0,0,0,.16);
+    border: 2px solid rgba(255,255,255,.18);
+    flex: 0 0 auto;
+  }
+  .quick-nav {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 14px rgba(36,37,110,.05);
+  }
+  .block-title { font-size: 15px; font-weight: 700; color: var(--club-dark); margin-bottom: 10px; }
+  .quick-grid { display: grid; gap: 8px; }
+  .quick-item {
+    text-decoration: none;
+    color: inherit;
+    background: linear-gradient(180deg, #ffffff, #f9fbff);
+    border: 1px solid #e5eef7;
+    border-radius: 14px;
+    padding: 11px 12px;
+    display: grid;
+    gap: 3px;
+  }
+  .quick-date { font-size: 13px; font-weight: 700; color: var(--club-dark); }
+  .quick-main { font-size: 15px; font-weight: 700; }
+  .quick-meta { font-size: 12px; color: var(--muted); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .quick-badge {
+    display:inline-block; padding:4px 9px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:.03em;
+  }
+  .home-mini { background: rgba(1,182,237,.12); color: var(--club-dark); }
+  .away-mini { background: rgba(36,37,110,.1); color: var(--club-dark); }
+  .quick-time { font-weight:700; }
+  .section-heading {
+    margin: 16px 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--club-dark);
+  }
+  .matches { display: grid; gap: 14px; }
+  .card {
+    position: relative;
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 16px 14px 14px;
+    box-shadow: 0 8px 22px rgba(36,37,110,.06);
+  }
+  .card.past { background: var(--past-bg); color: var(--past-text); border-color: #d4dbe4; box-shadow: none; }
+  .card-accent {
+    position: absolute; inset: 0 0 auto 0; height: 5px;
+    background: linear-gradient(90deg, var(--club-light), var(--club-dark), var(--knltb));
+  }
+  .card.past .card-accent { background: linear-gradient(90deg, #cfd7df, #b8c2cc); }
+  .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; margin-top: 4px; }
+  .match-date { font-size: 21px; font-weight: 700; line-height: 1.15; color: var(--club-dark); }
+  .card.past .match-date, .card.past .match-round, .card.past .opponent { color: var(--past-text); }
+  .match-round { font-size: 13px; color: var(--club-light); font-weight: 700; margin-top: 3px; text-transform: uppercase; letter-spacing: .03em; }
+  .badge {
+    display: inline-block; padding: 7px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; letter-spacing: .03em;
+  }
+  .home { background: rgba(1,182,237,.12); color: var(--club-dark); }
+  .away { background: rgba(36,37,110,.1); color: var(--club-dark); }
+  .played { background: #d9dfe6; color: #5e6a77; }
+  .opponent { font-size: 23px; font-weight: 700; margin: 12px 0 14px; color: #111827; }
+  .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .time-box { background: #f7fbff; border: 1px solid #dcebf8; border-radius: 16px; padding: 12px; }
+  .time-box.highlight { background: linear-gradient(180deg, rgba(1,182,237,.12), rgba(1,182,237,.22)); border-color: rgba(1,182,237,.35); }
+  .card.past .time-box, .card.past .time-box.highlight { background: #e8edf2; border-color: #d4dbe4; }
+  .time-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 700; margin-bottom: 4px; }
+  .time-value { font-size: 22px; font-weight: 700; color: var(--club-dark); }
+  .time-value.tbd { font-size: 18px; color: var(--knltb); }
+  .card.past .time-value { color: var(--past-text); }
+  .players-block { margin-bottom: 14px; }
+  .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--club-dark); margin-bottom: 8px; letter-spacing: .04em; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 8px 11px; background: #f2f9fd; color: var(--club-dark);
+    border: 1px solid rgba(1,182,237,.28); border-radius: 999px; font-size: 14px; font-weight: 700;
+  }
+  .chip-warning { background: #fff1eb; color: #a23d18; border-color: rgba(236,94,42,.3); }
+  .card.past .chip { background: #dde4eb; color: #5f6b78; border-color: #ccd4dd; }
+  .card.past .chip-warning { background: #e6dde0; color: #7a5f66; border-color: #d6c7cc; }
+  .details { display: grid; gap: 6px; font-size: 14px; color: #334155; margin-bottom: 14px; }
+  .card.past .details { color: var(--past-text); }
+  .button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn {
+    display: block; text-align: center; text-decoration: none; padding: 12px 10px; border-radius: 14px; font-size: 14px; font-weight: 700;
+  }
+  .btn-knltb { background: var(--knltb); color: white; box-shadow: 0 6px 14px rgba(236,94,42,.22); }
+  .btn-route { background: var(--club-dark); color: white; box-shadow: 0 6px 14px rgba(36,37,110,.18); }
+  .card.past .btn-knltb, .card.past .btn-route { background: #cfd6de; color: #5f6b78; box-shadow: none; }
+  .note {
+    margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: #fff5f1; border-left: 4px solid var(--knltb); color: #99421e; font-size: 13px;
+  }
+  .card.past .note { background: #e6eaef; border-left-color: #c2c9d1; color: #6f7985; }
+  .footer-note { color: var(--muted); font-size: 12px; text-align: center; margin-top: 18px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-text">
+        <h1>🎾 Raamsdonksveer 2</h1>
+        <p>Najaarscompetitie 2026 · Heren Dubbel 17+ vrijdagavond · 4e klasse</p>
+      </div>
+      <div class="knltb-mark" aria-label="KNLTB">KNLTB</div>
+    </header>
+
+    <section class="quick-nav">
+      <div class="block-title">Overzicht</div>
+      <div class="quick-grid">
+        <a class="quick-item" href="#match-1">
+      <span class="quick-date">vr 11-9</span>
+      <span class="quick-main">Werkendam 1</span>
+      <span class="quick-meta"><span class="quick-badge away-mini">UIT</span> <span class="quick-time">19:00</span></span>
+    </a><a class="quick-item" href="#match-2">
+      <span class="quick-date">vr 18-9</span>
+      <span class="quick-main">Woudrichem 1</span>
+      <span class="quick-meta"><span class="quick-badge home-mini">THUIS</span> <span class="quick-time">19:00</span></span>
+    </a><a class="quick-item" href="#match-3">
+      <span class="quick-date">vr 25-9</span>
+      <span class="quick-main">Made 1</span>
+      <span class="quick-meta"><span class="quick-badge away-mini">UIT</span> <span class="quick-time">19:00</span></span>
+    </a><a class="quick-item" href="#match-4">
+      <span class="quick-date">vr 2-10</span>
+      <span class="quick-main">De Warande 2</span>
+      <span class="quick-meta"><span class="quick-badge away-mini">UIT</span> <span class="quick-time">19:00</span></span>
+    </a><a class="quick-item" href="#match-5">
+      <span class="quick-date">vr 9-10</span>
+      <span class="quick-main">De Hei 1</span>
+      <span class="quick-meta"><span class="quick-badge home-mini">THUIS</span> <span class="quick-time">19:00</span></span>
+    </a>
+      </div>
+    </section>
+
+    <div class="section-heading">Wedstrijden</div>
+    <main class="matches" id="matches">
+    
+    <section class="card" id="match-1" data-date="2026-09-11">
+      <div class="card-accent"></div>
+      <div class="card-top">
+        <div>
+          <div class="match-date">vrijdag 11 september 2026</div>
+          <div class="match-round">Ronde 1</div>
+        </div>
+        <span class="badge away">UIT</span>
+      </div>
+
+      <div class="opponent">Werkendam 1</div>
+
+      <div class="time-grid">
+        <div class="time-box">
+          <div class="time-label">Aanwezig</div>
+          <div class="time-value">19:00</div>
+        </div>
+        <div class="time-box highlight">
+          <div class="time-label">Aanvang</div>
+          <div class="time-value">19:00</div>
+        </div>
+      </div>
+
+      <div class="players-block">
+        <div class="section-title">Spelers</div>
+        <div class="chips"><span class="chip">Daan</span><span class="chip">Frans van der Pluijm</span><span class="chip">Erik-Jan</span><span class="chip">Peter Joosen</span></div>
+      </div>
+
+      <div class="details">
+        <div><strong>Locatie:</strong> T.V. Werkendam</div><div><strong>Adres:</strong> Werkina 1-C, 4251 HK Werkendam</div><div><strong>Baan:</strong> Kunstgras</div><div><strong>Captain tegenstander:</strong> Julian van Berchum – +31681303033</div>
+      </div>
+
+      <div class="button-row">
+        <a class="btn btn-knltb" href="https://mijnknltb.toernooi.nl/league/397940B6-C4F7-42CF-9E4A-213232A499C9/team-match/114055" target="_blank" rel="noopener noreferrer">Actuele info</a>
+        <a class="btn btn-route" href="https://www.google.com/maps/dir/?api=1&destination=Werkina+1-C,+Werkendam" target="_blank" rel="noopener noreferrer">Route</a>
+      </div>
+    </section>
+    
+    <section class="card" id="match-2" data-date="2026-09-18">
+      <div class="card-accent"></div>
+      <div class="card-top">
+        <div>
+          <div class="match-date">vrijdag 18 september 2026</div>
+          <div class="match-round">Ronde 2</div>
+        </div>
+        <span class="badge home">THUIS</span>
+      </div>
+
+      <div class="opponent">Woudrichem 1</div>
+
+      <div class="time-grid">
+        <div class="time-box">
+          <div class="time-label">Aanwezig</div>
+          <div class="time-value">18:45</div>
+        </div>
+        <div class="time-box highlight">
+          <div class="time-label">Aanvang</div>
+          <div class="time-value">19:00</div>
+        </div>
+      </div>
+
+      <div class="players-block">
+        <div class="section-title">Spelers</div>
+        <div class="chips"><span class="chip">Ralph</span><span class="chip">Jelle</span><span class="chip">Erik-Jan</span><span class="chip">Bennie</span></div>
+      </div>
+
+      <div class="details">
+        <div><strong>Locatie:</strong> TPV Raamsdonksveer – In het wandelpark</div><div><strong>Adres:</strong> Wilhelminalaan 34, 4941 GK Raamsdonksveer</div><div><strong>Baan:</strong> Roodzand kunstgras</div><div><strong>Captain tegenstander:</strong> Jeroen Braat – 06-14956202</div>
+      </div>
+
+      <div class="button-row">
+        <a class="btn btn-knltb" href="https://mijnknltb.toernooi.nl/league/397940B6-C4F7-42CF-9E4A-213232A499C9/team-match/114053" target="_blank" rel="noopener noreferrer">Actuele info</a>
+        <a class="btn btn-route" href="https://www.google.com/maps/dir/?api=1&destination=Wilhelminalaan+34,+Raamsdonksveer" target="_blank" rel="noopener noreferrer">Route</a>
+      </div>
+      <div class="note">Rookvrij park bij het grote parkeerterrein. Alleen pin of contactloos betalen.</div>
+    </section>
+    
+    <section class="card" id="match-3" data-date="2026-09-25">
+      <div class="card-accent"></div>
+      <div class="card-top">
+        <div>
+          <div class="match-date">vrijdag 25 september 2026</div>
+          <div class="match-round">Ronde 3</div>
+        </div>
+        <span class="badge away">UIT</span>
+      </div>
+
+      <div class="opponent">Made 1</div>
+
+      <div class="time-grid">
+        <div class="time-box">
+          <div class="time-label">Aanwezig</div>
+          <div class="time-value">19:00</div>
+        </div>
+        <div class="time-box highlight">
+          <div class="time-label">Aanvang</div>
+          <div class="time-value">19:00</div>
+        </div>
+      </div>
+
+      <div class="players-block">
+        <div class="section-title">Spelers</div>
+        <div class="chips"><span class="chip">Jelle</span><span class="chip">Daan</span><span class="chip">Bennie</span><span class="chip">Edward Matray</span></div>
+      </div>
+
+      <div class="details">
+        <div><strong>Locatie:</strong> MSETV De Schietberg</div><div><strong>Adres:</strong> Schietberglaan 92, 4921 VJ Made</div><div><strong>Baan:</strong> Kunstgras / roodzand kunstgras</div><div><strong>Captain tegenstander:</strong> Joris van Duijnhoven – +31627565396</div>
+      </div>
+
+      <div class="button-row">
+        <a class="btn btn-knltb" href="https://mijnknltb.toernooi.nl/league/397940B6-C4F7-42CF-9E4A-213232A499C9/team-match/114057" target="_blank" rel="noopener noreferrer">Actuele info</a>
+        <a class="btn btn-route" href="https://www.google.com/maps/dir/?api=1&destination=Schietberglaan+92,+Made" target="_blank" rel="noopener noreferrer">Route</a>
+      </div>
+    </section>
+    
+    <section class="card" id="match-4" data-date="2026-10-02">
+      <div class="card-accent"></div>
+      <div class="card-top">
+        <div>
+          <div class="match-date">vrijdag 2 oktober 2026</div>
+          <div class="match-round">Ronde 4</div>
+        </div>
+        <span class="badge away">UIT</span>
+      </div>
+
+      <div class="opponent">De Warande 2</div>
+
+      <div class="time-grid">
+        <div class="time-box">
+          <div class="time-label">Aanwezig</div>
+          <div class="time-value">19:00</div>
+        </div>
+        <div class="time-box highlight">
+          <div class="time-label">Aanvang</div>
+          <div class="time-value">19:00</div>
+        </div>
+      </div>
+
+      <div class="players-block">
+        <div class="section-title">Spelers</div>
+        <div class="chips"><span class="chip">Ralph</span><span class="chip">Daan</span><span class="chip">Erik-Jan</span><span class="chip">Bennie</span></div>
+      </div>
+
+      <div class="details">
+        <div><strong>Locatie:</strong> Sportpark De Warande (OTC)</div><div><strong>Adres:</strong> Wilhelminakanaal Zuid 82, 4903 RA Oosterhout</div><div><strong>Baan:</strong> Kunstgras / roodzand kunstgras</div><div><strong>Captain tegenstander:</strong> Michiel Teunis – +31644748493</div>
+      </div>
+
+      <div class="button-row">
+        <a class="btn btn-knltb" href="https://mijnknltb.toernooi.nl/league/397940B6-C4F7-42CF-9E4A-213232A499C9/team-match/114054" target="_blank" rel="noopener noreferrer">Actuele info</a>
+        <a class="btn btn-route" href="https://www.google.com/maps/dir/?api=1&destination=Wilhelminakanaal+Zuid+82,+Oosterhout" target="_blank" rel="noopener noreferrer">Route</a>
+      </div>
+    </section>
+    
+    <section class="card" id="match-5" data-date="2026-10-09">
+      <div class="card-accent"></div>
+      <div class="card-top">
+        <div>
+          <div class="match-date">vrijdag 9 oktober 2026</div>
+          <div class="match-round">Ronde 5</div>
+        </div>
+        <span class="badge home">THUIS</span>
+      </div>
+
+      <div class="opponent">De Hei 1</div>
+
+      <div class="time-grid">
+        <div class="time-box">
+          <div class="time-label">Aanwezig</div>
+          <div class="time-value">18:45</div>
+        </div>
+        <div class="time-box highlight">
+          <div class="time-label">Aanvang</div>
+          <div class="time-value">19:00</div>
+        </div>
+      </div>
+
+      <div class="players-block">
+        <div class="section-title">Spelers</div>
+        <div class="chips"><span class="chip">Ralph</span><span class="chip">Daan</span><span class="chip">William</span><span class="chip">Bennie</span></div>
+      </div>
+
+      <div class="details">
+        <div><strong>Locatie:</strong> TPV Raamsdonksveer – In het wandelpark</div><div><strong>Adres:</strong> Wilhelminalaan 34, 4941 GK Raamsdonksveer</div><div><strong>Baan:</strong> Roodzand kunstgras</div><div><strong>Captain tegenstander:</strong> Sebastiaan van der Pijl – svanderpijl@casema.nl</div>
+      </div>
+
+      <div class="button-row">
+        <a class="btn btn-knltb" href="https://mijnknltb.toernooi.nl/league/397940B6-C4F7-42CF-9E4A-213232A499C9/team-match/114056" target="_blank" rel="noopener noreferrer">Actuele info</a>
+        <a class="btn btn-route" href="https://www.google.com/maps/dir/?api=1&destination=Wilhelminalaan+34,+Raamsdonksveer" target="_blank" rel="noopener noreferrer">Route</a>
+      </div>
+      <div class="note">Rookvrij park bij het grote parkeerterrein. Alleen pin of contactloos betalen.</div>
+    </section>
+    
+    </main>
+
+    <div class="footer-note">Aanvoerder: Ralph van Ballegooijen · +31653879559<br>Actuele tijden kunnen wijzigen. Controleer daarom vlak voor de speeldag altijd de KNLTB-link.</div>
+  </div>
+
+<script>
+  const container = document.getElementById("matches");
+  const cards = Array.from(container.querySelectorAll(".card"));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  cards.forEach(card => {
+    const matchDate = new Date(card.dataset.date + "T00:00:00");
+    if (matchDate < today) {
+      card.classList.add("past");
+      const badge = document.createElement("span");
+      badge.className = "badge played";
+      badge.textContent = "GESPEELD";
+      card.querySelector(".card-top").appendChild(badge);
+    }
+  });
+
+  cards.sort((a, b) => {
+    const dateA = new Date(a.dataset.date + "T00:00:00");
+    const dateB = new Date(b.dataset.date + "T00:00:00");
+    const aPast = a.classList.contains("past");
+    const bPast = b.classList.contains("past");
+    if (aPast !== bPast) return aPast ? 1 : -1;
+    return dateA - dateB;
+  });
+
+  cards.forEach(card => container.appendChild(card));
+</script>
+</body>
+</html>
